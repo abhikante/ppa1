@@ -1,8 +1,14 @@
 from functions import *
 
 print("Welcome to the app! Choose a function to use or press 9 to quit:")
+prev_value = 0
 while 1 == 1:
     option = input("1: Calculate BMI   2: Shortest Distance Between 2 Points   3: Email Verifier    4: Bill Split Calculator    9: Quit\n")
+    if prev_value != option:
+        print_bmi_list()
+        print_dist_list()
+    print()
+    prev_value = option
     if int(option) == 1:
         height = input("Enter height in inches: ")
         weight = input("Enter weight in pounds: ")
@@ -31,7 +37,8 @@ while 1 == 1:
         except ValueError:
             print("You didn't input a number somewhere! Please try again")
             continue
-        print("The shortest distance between these two points is: " + str(shortest_distance(point1, point2)))
+        dist = shortest_distance(point1, point2)
+        print("The shortest distance between these two points is: " + str(dist))
     elif int(option) == 3:
         email = input("Enter an email and we'll verify if it follows all requirements: ")
         if email_verifier(email) == True:
@@ -46,5 +53,15 @@ while 1 == 1:
             print("Guest " + str(i+1) + " owes: " + str(final_arr[i]))
     elif int(option) == 9:
         print("Thanks for using the app, goodbye!")
+        mycursor.execute("SELECT * FROM bmi")
+        myresult = mycursor.fetchall()
+        print("Previous BMI Values:\n")
+        for x in myresult:
+            print(x)
+        mycursor.execute("SELECT * FROM dist")
+        myresult = mycursor.fetchall()
+        print("Previous Distance Values:\n")
+        for x in myresult:
+            print(x)
         break
     print("\nChoose a new function")
